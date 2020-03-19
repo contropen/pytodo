@@ -23,10 +23,9 @@ setup(
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3 :: Only",
     ],
-    install_requires=['click>=0.1'],
+    install_requires=['click>=0.1', 'beautifultable'],
     entry_points={"console_scripts": ["pytodo=pytodo:main"]},
     long_description=readme,
     long_description_content_type="text/markdown",
     packages=find_packages(include=["pytodo"]),
-    flake8={"max_line_length": 100},
 ) 

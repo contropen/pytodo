@@ -7,35 +7,34 @@ class DatabaseConnection:
         self.cursor_obj = self.con.cursor()
         self.cursor_obj.execute(
             """CREATE TABLE IF NOT EXISTS data(
-            task_name text NOT NULL UNIQUE, 
-            creation_date varchar, task varchar)
+            id integer PRIMARY KEY,task TEXT NOT NULL UNIQUE,
+            creation_date varchar)
             """
         )
         self.con.commit()
 
-    def insert_data(self, task_name, data, creation_date):
+    def insert_data(self, task, creation_date):
         self.creation_date = creation_date
-        self.task_name = task_name
-        self.data = data
+        self.task = task
         self.cursor_obj.execute(
-            """INSERT INTO data
-            (task_name, data, creation_date)
-            VALUES (?, ?, ?)""",
-            (self.task_name, self.data, self.creation_date),
+            """INSERT OR IGNORE INTO data
+            (task, creation_date)
+            VALUES (?, ?)""",
+            (self.task, self.creation_date),
         )
         self.con.commit()
 
-    def delete_data(self, task_name):
-        self.task_name = task_name
+    def delete_data(self, task):
+        self.task = task
         self.cursor_obj.execute(
-            """DELETE from data where task_name = ?""", (self.task_name,)
+            """DELETE from datas where task = ?""", (self.task,)
         )
         self.con.commit()
 
-    def show_data(self, task_name):
-        self.task_name = task_name
+    def show_data(self, task):
+        self.task = task
         self.cursor_obj.execute(
-            """SELECT data FROM datas WHERE task_name=?""", (self.task_name,)
+            """SELECT data FROM datas WHERE task=?""", (self.task,)
         )
         rows = self.cursor_obj.fetchall()
 
@@ -44,11 +43,11 @@ class DatabaseConnection:
     
         self.con.commit()
 
-    def update_data(self,task_name):
-        self.task_name = task_name
+    def update_data(self,task):
+        self.task = task
         self.cursor_obj.execute(
-            """UPDATE data  =? WHERE task_name =?""",
-            (self.data, self.task_name),
+            """UPDATE datas SET data  =? WHERE task =?""",
+            (self.data, self.task),
         )
         self.con.commit()
 
